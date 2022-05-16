@@ -79,7 +79,7 @@ def cv_model_eval(X_train, y_train, model_name="lgb"):
             eval_ds = xgb.DMatrix(data=X_val)
             eval_pred = model.predict(eval_ds, ntree_limit=model.best_ntree_limit)
         elif model_name == "cat":
-            eval_ds = Pool(data=X_val, cat_features=cate_features)
+            eval_ds = Pool(data=X_val)
             eval_pred = model.predict_proba(eval_ds)
 
         score = macro_f1(y_val, eval_pred.argmax(1))
@@ -113,7 +113,7 @@ def cv_model_predict(X_test, model_name="lgb"):
             test_ds = xgb.DMatrix(data=X_test)
             test_pred = model.predict(test_ds, ntree_limit=model.best_ntree_limit)
         elif model_name == "cat":
-            test_ds = Pool(data=X_test, cat_features=cate_features)
+            test_ds = Pool(data=X_test)
             test_pred = model.predict_proba(test_ds)
 
         test_preds += test_pred / num_model
